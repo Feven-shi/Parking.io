@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>PARKING</title>
+</head>
+<style>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+    .row{
+        margin-top: 1.5%;
+       
+    } 
+    h1{
+        text-align: center;
+        margin-top: 5%;
+    }
+    .left{
+        border-radius: 10px;
+        background-color: #101820FF;
+        color: #FEE715FF;
+        
+    }
+    .right{
+        border-radius: 10px;
+        background-color: #FEE715FF;
+        color: #101820FF;
+    } 
+    .xicon{
+        visibility: hidden;
+    } 
+    h4, h2 {
+        text-align: center;
+    } 
+
+    .modal-body button{
+        float: right;
+        margin: 15px;
+    } 
+
+    .modal-body {
+        color: #101820FF;
+    }
+
+</style>
+<body>
+
+    <div class="container">
+        <h3 style="text-align: center; margin-top: 3%; 
+        color: #FEE715FF; background-color: rgb(26, 57, 88); ">
+        You will be charged 5 ETB within a Min+</h3>
+        <div class="row">
+            <div class="col col-lg-4.col-sm-12 left">
+                <h1 style="margin: 20px 15px;">Check-In.</h1>
+                <form action="" style="margin: 20px 15px;">
+                    
+                    <div class="form-group">
+                        <label for="" >Name</label>
+                        <input type="text" class="form-control" placeholder="--Full Name--" id="fullname">
+                    </div> <br>
+                    <div class="form-group">
+                        <label for="" >Car Plate-Number </label>
+                        <input type="text" class="form-control" placeholder="45678" maxlength="6" id="plateno">
+                    </div> <br>
+                    <div class="form-group">
+                        <label for="" >Phone-Number</label>
+                        <input type="tel" class="form-control" placeholder="+251-943-123-555" maxlength="13" id="phoneno">
+                    </div> <br>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-warning" onclick="park()">PARK</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col col-lg-8 col-sm-12 right">
+                <h1>Parked cars</h1>
+                <table class="table" id="mytable" style="margin-left: 10px; color: #101820FF;">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Plate-Number</th>
+                            <th scope="col">Phone-Number</th>
+                            <th scope="col">ST</th>
+                            <th scope="col">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+
+                <!-- modal -->
+                <div class="modal" id="pop">
+                    <div class="modal-dialog">
+                        <div class="modal-content" style="margin: 10px;">
+                            <div class="modal-header" style="background-color: #101820FF;
+                             color: #FEE715FF;">
+                                <h2>Thanks for using our parking lot </h2>
+                            </div>
+                            <div class="modal-body">
+                                <h4>you have parked for</h4>
+                                <h5 id="charge"> HI </h5>
+                                <button type="button" id="stay" class="btn btn-warning" data-bs-dismiss="modal"> Stay </button>
+                                <button type="button" id="pay1" class="btn btn-dark">Pay</button>
+                                <button type="button" id="pay2" class="btn btn-dark" style="visibility: hidden;">
+                                    <strike>Pay</strike> </button> 
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+    integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+    crossorigin="anonymous"></script>
+
+    <script>
+        var name;
+        var plate;
+        var phone;
+        
+        var idno = 0;
+        
+        function park(){
+            name = document.getElementById('fullname').value;
+            plate = parseInt(document.getElementById('plateno').value);
+            phone = parseInt(document.getElementById('phoneno').value);
+
+            var ic = document.createElement("i");
+
+            ic.setAttribute("class", "bi bi-x-octagon");
+            ic.setAttribute("data-bs-toggle", "modal");
+            ic.setAttribute("data-bs-target", "#pop");
+            ic.setAttribute("id", "xicon")
+
+
+           var  today =  new Date();
+            var time = today.getHours() + ":" + today.getMinutes() ;
+
+
+            var table = document.getElementById('mytable');
+            var no_of_rows = document.getElementById('mytable').rows.length;
+            var row = table.insertRow(no_of_rows);
+            
+            var n  = row.insertCell(0);
+            var n0 = row.insertCell(1)
+            var n1 = row.insertCell(2);
+            var n2 = row.insertCell(3);
+            var n3 = row.insertCell(4);
+            var n4 = row.insertCell(5);
+
+
+            n.innerHTML = ++idno;
+            n0.innerHTML = name;
+            n1.innerHTML = plate;
+            n2.innerHTML = phone;
+            n3.innerHTML = time;
+            n4.appendChild(ic);
+
+            n4.style.textAlign = "center"
+
+           ic.onclick = function del(){
+
+            var curtime = new Date();
+            var ttime = curtime.getHours() + ":" + curtime.getMinutes() + ":" + curtime.getSeconds();
+            var totalhr = curtime.getHours  () - today.getHours();
+            var totalmin = curtime.getMinutes() - today.getMinutes();
+            var totaltime = ((curtime.getHours() - today.getHours()) * 60) + (curtime.getMinutes() - today.getMinutes());
+            var cost = 5 * totaltime;
+            // console.log(today.getMinutes());
+            // console.log(curtime.getMinutes())
+
+           document.getElementById('charge').innerHTML = totalhr + " : Hr " + "<br>" + totalmin + " : Min " + "<br>"  +
+            "Total min times by 5etb will be : " + "<br>" + totaltime + " * " + " 5 etb = " + cost + "etb"; 
+
+            var z = 0;
+            if(cost == z){
+                document.getElementById('pay2').style.visibility='visible';
+               document.getElementById('pay1').style.visibility='hidden';
+            } 
+            else {
+                document.getElementById('pay2').style.visibility='hidden';
+               document.getElementById('pay1').style.visibility='visible';
+            } 
+
+            pay2.onclick = function removeee() {
+            
+            // var td = event.target.parentNode; // event.target will be the input element
+            // var tr = td.parentNode; //the row to be removed
+            //  tr.parentNode.removeChild(tr);
+            document.getElementById('mytable').deleteRow(no_of_rows);
+            } 
+
+            pay1.onclick = function removee() {
+            
+            // var td = event.target.parentNode; // event.target will be the input element
+            // var tr = td.parentNode; //the row to be removed
+            //  tr.parentNode.removeChild(tr);
+            document.getElementById('mytable').deleteRow(no_of_rows);
+            }
+
+        }
+     
+    
+        } 
+
+       
+
+    
+        
+
+    </script>
+
+</body>
+</html>
